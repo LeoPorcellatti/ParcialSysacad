@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FormInicioSysacad\FormInicioSysacad.csproj" />
+    <ProjectReference Include="..\LibreriaSysacad\LibreriaSysacad.csproj" />
+  </ItemGroup>
+
 </Project>
