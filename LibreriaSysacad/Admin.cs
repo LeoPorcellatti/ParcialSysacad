@@ -9,7 +9,7 @@ namespace LibreriaSysacad
 {
     public class Admin : Usuario
     {
-        private string _idAdmin;
+        private int _idAdmin;
         private string _nombre;
         private string _apellido;
 
@@ -17,7 +17,7 @@ namespace LibreriaSysacad
         {
 
         }
-        public Admin(string idAdmin, string nombre, string apellido, string correo, string clave) : base(correo, clave)
+        public Admin(int idAdmin, string nombre, string apellido, string correo, string clave) : base(correo, clave)
         {
             _idAdmin = idAdmin;
             _nombre = nombre;

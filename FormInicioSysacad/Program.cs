@@ -1,3 +1,7 @@
+using LibreriaSysacad;
+using Newtonsoft.Json;
+using System.Configuration;
+
 namespace FormInicioSysacad
 {
     internal static class Program
@@ -8,12 +12,24 @@ namespace FormInicioSysacad
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            //Application.Run(new FormInicio());
-            //Application.Run(new FormAdmin());
-            Application.Run(new FormRegistrarAlumnos());    
+
+            string rutaAdminJson = ConfigurationManager.AppSettings["rutaAdminJson"];
+
+            if (!File.Exists(rutaAdminJson))
+            {
+                ManejadorArchivos.GenerarArchivoAdmin(rutaAdminJson);
+            }
+
+            string jsonAdministradores = File.ReadAllText(rutaAdminJson);
+            var adminObjects = JsonConvert.DeserializeObject<List<object>>(jsonAdministradores);
+            List <Admin> administradores = adminObjects.Select(obj =>
+            {
+                var adminProps = JsonConvert.DeserializeAnonymousType(obj.ToString(), new { Correo = "", Clave = "" });
+                return new Admin(adminProps.Correo, adminProps.Clave);
+            }).ToList();
+
+            Application.Run(new FormInicio(administradores));              
         }
     }
 }

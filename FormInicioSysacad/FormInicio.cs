@@ -7,23 +7,10 @@ namespace FormInicioSysacad
     public partial class FormInicio : Form
     {
         private List<Admin> administradores;
-        public FormInicio()
+        public FormInicio(List <Admin> admin)
         {
-            InitializeComponent();
-
-            string rutaAdminJson = ConfigurationManager.AppSettings["rutaAdminJson"];
-            if (!File.Exists(rutaAdminJson))
-            {
-                ManejadorDeArchivos.GenerarArchivoAdmin(rutaAdminJson);
-            }
-
-            string jsonAdministradores = File.ReadAllText(rutaAdminJson);
-            var adminObjects = JsonConvert.DeserializeObject<List<object>>(jsonAdministradores);
-            administradores = adminObjects.Select(obj =>
-            {
-                var adminProps = JsonConvert.DeserializeAnonymousType(obj.ToString(), new { Correo = "", Clave = "" });
-                return new Admin(adminProps.Correo, adminProps.Clave);
-            }).ToList();
+            InitializeComponent();         
+            administradores = admin;
         }
 
         private void btnInicioSesion_Click(object sender, EventArgs e)
@@ -37,8 +24,13 @@ namespace FormInicioSysacad
             if (credencialesCorrectas)
             {
                 FormAdmin formularioAdmin = new FormAdmin();
+                formularioAdmin.FormClosed += (s, args) =>
+                {
+                    this.Enabled = true;
+                };
                 formularioAdmin.Show();
-                this.Hide();
+                this.Enabled = false;
+                LimpiarCampos();
             }
             else
             {
@@ -48,6 +40,12 @@ namespace FormInicioSysacad
         private bool ValidarCredenciales(string correo, string clave)
         {
             return administradores.Exists(admin => admin.Correo == correo && admin.Clave == clave);
+        }
+
+        private void LimpiarCampos()
+        {
+            txtUsuario.Text = string.Empty;
+            txtClave.Text = string.Empty;
         }
     }
 }

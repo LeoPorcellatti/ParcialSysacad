@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaSysacad
 {
-    public class ManejadorDeArchivos
+    public class ManejadorArchivos
     {
         public static void GenerarArchivoAdmin(string rutaAdminJson)
         {
@@ -31,7 +31,7 @@ namespace LibreriaSysacad
             string listaAlumnosActualizada = SerealizarAlumnos(alumnosActuales);
             File.WriteAllText(rutaAlumnosJson, listaAlumnosActualizada);
         }
-        public static List<T> DeserealizarArchivo<T>(string archivo)
+        public static List<T> DeserealizarArchivo<T>(string archivo) // PASAR ALUMNO, NO LISTA
         {
             List<T> listaDeserealizada = new List<T>();
 

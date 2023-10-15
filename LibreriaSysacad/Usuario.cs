@@ -10,7 +10,6 @@
             _correo = correo;
             _clave = clave;
         }
-
         public string Correo { get { return _correo; } set { _correo = value; } }    
         public string Clave { get { return _clave; } set { _clave = value; } }  
     }

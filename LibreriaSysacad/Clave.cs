@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaSysacad
 {
-    public class Claves
+    public class Clave
     {
         public static string GenerarClaves()
         {

@@ -22,7 +22,7 @@ namespace FormInicioSysacad
             DialogResult result = MessageBox.Show("¿Desea salir?", "Cerrar Sesión", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Application.Exit();
+                this.Close();
             }
         }
 

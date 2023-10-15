@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace LibreriaSysacad
-{
+{    
     public class Alumno : Usuario
     {
         private int _legajo;
@@ -21,6 +21,7 @@ namespace LibreriaSysacad
 
         }
         [JsonConstructor]
+        
         public Alumno(int legajo, string nombre, string apellido, string correo, string clave, string direccion, string numeroDeTelefono, string dni) : base(correo, clave)
         {
             _legajo = legajo;
@@ -31,6 +32,7 @@ namespace LibreriaSysacad
             _dni = dni;
         }
 
+        // [JsonIgnore] > OCULTAR BOOL CAMBIO CLAVE
         public int Legajo { get { return _legajo; } set { _legajo = value; } }
         public string Nombre { get { return _nombre; } set { _nombre = value; } }
         public string Apellido { get { return _apellido; } set { _apellido = value; } }

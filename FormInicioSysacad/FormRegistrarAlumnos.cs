@@ -21,7 +21,7 @@ namespace FormInicioSysacad
         public FormRegistrarAlumnos()
         {
             InitializeComponent();
-            alumnos = ManejadorDeArchivos.DeserealizarArchivo<Alumno>(rutaAlumnosJson);
+            alumnos = ManejadorArchivos.DeserealizarArchivo<Alumno>(rutaAlumnosJson);
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
@@ -36,30 +36,30 @@ namespace FormInicioSysacad
             string direccion = txtDireccion.Text;
             string numeroDeTelefono = txtNumeroDeTelefono.Text;
             string correo = txtCorreo.Text;
-            string clave = Claves.GenerarClaves();
+            string clave = Clave.GenerarClaves();
 
-            if (!Validaciones.ValidarCasillasVaciasAlumno(nombre, apellido, dni, direccion, numeroDeTelefono, correo))
+            if (!Validacion.ValidarCasillasVaciasAlumno(nombre, apellido, dni, direccion, numeroDeTelefono, correo))
             {
                 MessageBox.Show("Revisa los casilleros incompletos.");
                 return;
             }
-            if (!Validaciones.ValidarDni(dni))
+            if (!Validacion.ValidarDni(dni))
             {
                 MessageBox.Show("Ingrese los 8 Dígitos de su DNI.", "Atención!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (!Validaciones.ValidarTelefono(numeroDeTelefono))
+            if (!Validacion.ValidarTelefono(numeroDeTelefono))
             {
                 MessageBox.Show("Revise el número de teléfono ingresado, el mismo debe contar con entre 8 y 10 dígitos", "Atención!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (Validaciones.ExisteDniAlumno(alumnos, dni))
+            if (Validacion.ExisteDniAlumno(alumnos, dni))
             {
                 MessageBox.Show("DNI ya existente", "Atención!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (Validaciones.ExisteCorreoAlumno(alumnos, correo))
+            if (Validacion.ExisteCorreoAlumno(alumnos, correo))
             {
                 MessageBox.Show("Correo ya existente", "Atención!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -70,7 +70,7 @@ namespace FormInicioSysacad
             Alumno nuevoAlumno = Admin.RegistrarAlumno(legajo, nombre, apellido, dni, direccion, numeroDeTelefono, correo, clave);
             alumnos.Add(nuevoAlumno);
 
-            ManejadorDeArchivos.GenerarArchivoAlumnos(rutaAlumnosJson, nuevoAlumno);
+            ManejadorArchivos.GenerarArchivoAlumnos(rutaAlumnosJson, nuevoAlumno);
 
             MessageBox.Show("Alumno registrado exitosamente.");
 

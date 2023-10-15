@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaSysacad
 {
-    public class Validaciones
+    public class Validacion
     {
 
         public static bool ValidarVacio(string texto)
@@ -47,7 +47,14 @@ namespace LibreriaSysacad
             return Regex.IsMatch(numeroDeTelefono, @"^\d{8,10}$");
         }
 
-        public static bool ValidarCasillasVaciasAlumno(string nombre, string apellido, string dni, string direccion, string numeroDeTelefono, string correo)
+        public static bool ValidarCasillasVaciasAlumno(
+            string nombre, 
+            string apellido, 
+            string dni, 
+            string direccion, 
+            string numeroDeTelefono, 
+            string correo
+            )
         {
             if (!ValidarVacio(nombre) || !ValidarVacio(apellido) || !ValidarVacio(dni) || !ValidarVacio(direccion) ||
             !ValidarVacio(numeroDeTelefono) || !ValidarVacio(correo))
