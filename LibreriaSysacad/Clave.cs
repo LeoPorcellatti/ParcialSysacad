@@ -23,5 +23,17 @@ namespace LibreriaSysacad
             clave = new string (codigo);
             return clave;
         }
+
+        public static string GetHash(string password)
+        {
+            var hash = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 8);
+
+            return hash;
+        }
+
+        public static bool ValidatePassword(string password, string hash)
+        {
+            return BCrypt.Net.BCrypt.EnhancedVerify(password, hash);
+        }
     }
 }

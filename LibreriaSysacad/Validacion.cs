@@ -28,6 +28,15 @@ namespace LibreriaSysacad
             return Regex.IsMatch(texto, @"^[a-zA-Z]+$");
         }
 
+        public static bool ValidarCorreo(string correo)
+        {
+            if(!ValidarVacio(correo))
+            {
+                return false;
+            }
+            return Regex.IsMatch(correo, @"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$");
+        }
+
         public static bool ValidarDni(string dni)
         {
             if(!ValidarVacio(dni))
@@ -62,16 +71,6 @@ namespace LibreriaSysacad
                 return false;
             }
             return true;
-        }
-
-        public static bool ExisteDniAlumno(List<Alumno> alumnos, string dni)
-        {
-            return alumnos.Any(alu => alu.Dni == dni);
-        }
-
-        public static bool ExisteCorreoAlumno(List<Alumno> alumnos, string correo)
-        {
-            return alumnos.Any(alu => alu.Correo == correo);
-        }
+        }        
     }
 }

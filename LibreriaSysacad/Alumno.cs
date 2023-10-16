@@ -33,7 +33,17 @@ namespace LibreriaSysacad
             _dni = dni;
             _claveProvisoria = claveProvisoria;
         }
-                
+
+        public static bool ExisteDniAlumno(List<Alumno> alumnos, string dni)
+        {
+            return alumnos.Any(alu => alu.Dni == dni);
+        }
+
+        public static bool ExisteCorreoAlumno(List<Alumno> alumnos, string correo)
+        {
+            return alumnos.Any(alu => alu.Correo == correo);
+        }
+
         public int Legajo { get { return _legajo; } set { _legajo = value; } }
         public string Nombre { get { return _nombre; } set { _nombre = value; } }
         public string Apellido { get { return _apellido; } set { _apellido = value; } }

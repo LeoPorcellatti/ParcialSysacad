@@ -38,6 +38,7 @@ namespace FormInicioSysacad
             string numeroDeTelefono = txtNumeroDeTelefono.Text;
             string correo = txtCorreo.Text;
             string clave = Clave.GenerarClaves();
+            string claveHash = Clave.GetHash(clave);
             bool claveProvisoria = chkClaveProvisoria.Checked;
 
             if (!Validacion.ValidarCasillasVaciasAlumno(nombre, apellido, dni, direccion, numeroDeTelefono, correo))
@@ -55,13 +56,17 @@ namespace FormInicioSysacad
                 MessageBox.Show("Revise el número de teléfono ingresado, el mismo debe contar con entre 8 y 10 dígitos", "Atención!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            if (Validacion.ExisteDniAlumno(alumnos, dni))
+            if (!Validacion.ValidarCorreo(correo))
+            {
+                MessageBox.Show("Revise su correo electrónico, el mismo debe tener el siguiente formato usuario@servidor.extension", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (Alumno.ExisteDniAlumno(alumnos, dni))
             {
                 MessageBox.Show("DNI ya existente", "Atención!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (Validacion.ExisteCorreoAlumno(alumnos, correo))
+            if (Alumno.ExisteCorreoAlumno(alumnos, correo))
             {
                 MessageBox.Show("Correo ya existente", "Atención!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -69,12 +74,13 @@ namespace FormInicioSysacad
 
             int legajo = ObtenerUltimoLegajo();
 
-            Alumno nuevoAlumno = Admin.RegistrarAlumno(legajo, nombre, apellido, dni, direccion, numeroDeTelefono, correo, clave, claveProvisoria);
+            Alumno nuevoAlumno = Admin.RegistrarAlumno(legajo, nombre, apellido, dni, direccion, numeroDeTelefono, correo, claveHash, claveProvisoria);
             alumnos.Add(nuevoAlumno);
 
             ManejadorArchivos.AgregarAlumnosAlArchivo(rutaAlumnosJson, nuevoAlumno);
 
             MessageBox.Show("Alumno registrado exitosamente.");
+            SmtpMail.EnviarMailSmtp(correo, nombre, apellido, clave);
 
             DialogResult respuesta = MessageBox.Show("¿Dese cargar otro alumno?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (respuesta == DialogResult.Yes)
