@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace LibreriaSysacad
@@ -15,6 +15,7 @@ namespace LibreriaSysacad
         private string _direccion;
         private string _numeroDeTelefono;
         private string _dni;
+        private bool _claveProvisoria;
 
         public Alumno() : base("", "")
         {
@@ -22,7 +23,7 @@ namespace LibreriaSysacad
         }
         [JsonConstructor]
         
-        public Alumno(int legajo, string nombre, string apellido, string correo, string clave, string direccion, string numeroDeTelefono, string dni) : base(correo, clave)
+        public Alumno(int legajo, string nombre, string apellido, string correo, string clave, string direccion, string numeroDeTelefono, string dni, bool claveProvisoria) : base(correo, clave)
         {
             _legajo = legajo;
             _nombre = nombre;
@@ -30,15 +31,17 @@ namespace LibreriaSysacad
             _direccion = direccion;
             _numeroDeTelefono = numeroDeTelefono;
             _dni = dni;
+            _claveProvisoria = claveProvisoria;
         }
-
-        // [JsonIgnore] > OCULTAR BOOL CAMBIO CLAVE
+                
         public int Legajo { get { return _legajo; } set { _legajo = value; } }
         public string Nombre { get { return _nombre; } set { _nombre = value; } }
         public string Apellido { get { return _apellido; } set { _apellido = value; } }
         public string Direccion { get { return _direccion; } set { _direccion = value; } }
         public string numeroDeTelefono { get { return _numeroDeTelefono; } set { _numeroDeTelefono = value; } }
         public string Dni { get { return _dni; } set { _dni = value; } }
+        [JsonIgnore]
+        public bool ClaveProvisoria { get { return _claveProvisoria; } set { _claveProvisoria = value; } }
     }
 }
 

@@ -13,24 +13,31 @@ namespace LibreriaSysacad
     {
         public static void GenerarArchivoAdmin(string rutaAdminJson)
         {
-            List<Admin> admins = Admin.InstanciarAdmin();
+            List<Admin> admins = InicializadorArchivos.InstanciarAdmin();
             string adminJson = SerealizarArchivo(admins);
 
             File.WriteAllText(rutaAdminJson, adminJson);
         }
 
-        public static void GenerarArchivoAlumnos(string rutaAlumnosJson, Alumno nuevoAlumno)
+        public static void GenerarArchivoAlumnos(string rutaAlumnosJson, List<Alumno> alumnos)
+        {
+            string alumnosJson = SerealizarArchivo(alumnos);
+            File.WriteAllText(rutaAlumnosJson, alumnosJson);
+        }
+
+        public static void AgregarAlumnosAlArchivo(string rutaAlumnosJson, Alumno nuevoAlumno)
         {
             List<Alumno> alumnosActuales = new List<Alumno>();
             if (File.Exists(rutaAlumnosJson))
             {
-                string contenido = File.ReadAllText(rutaAlumnosJson);
-                alumnosActuales = JsonConvert.DeserializeObject<List<Alumno>>(contenido);
+                string alumnosContenidos = File.ReadAllText(rutaAlumnosJson);
+                alumnosActuales = JsonConvert.DeserializeObject<List<Alumno>>(alumnosContenidos);
             }
             alumnosActuales.Add(nuevoAlumno);
-            string listaAlumnosActualizada = SerealizarAlumnos(alumnosActuales);
-            File.WriteAllText(rutaAlumnosJson, listaAlumnosActualizada);
+            string listaDeAlumnosActual = SerealizarAlumnos(alumnosActuales);
+            File.WriteAllText(rutaAlumnosJson, listaDeAlumnosActual);
         }
+
         public static List<T> DeserealizarArchivo<T>(string archivo) // PASAR ALUMNO, NO LISTA
         {
             List<T> listaDeserealizada = new List<T>();

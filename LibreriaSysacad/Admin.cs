@@ -13,6 +13,7 @@ namespace LibreriaSysacad
         private string _nombre;
         private string _apellido;
 
+        [JsonConstructor]
         public Admin(string correo, string clave) : base(correo, clave)
         {
 
@@ -23,20 +24,10 @@ namespace LibreriaSysacad
             _nombre = nombre;
             _apellido = apellido;
         }
-        public static List<Admin> InstanciarAdmin()
-        {
 
-            Admin adminPrincipal = new Admin("admin@admin.com", "12345");
-            List<Admin> admins = new List<Admin>
-            {
-                adminPrincipal
-            };
-
-            return admins;
-        }
-        public static Alumno RegistrarAlumno(int legajo, string nombre, string apellido, string dni, string direccion, string numeroDeTelefono, string correo, string clave)
+        public static Alumno RegistrarAlumno(int legajo, string nombre, string apellido, string dni, string direccion, string numeroDeTelefono, string correo, string clave, bool claveProvisoria)
         {
-            Alumno nuevoAlumno = new Alumno(legajo, nombre, apellido, correo, clave, direccion, numeroDeTelefono, dni);
+            Alumno nuevoAlumno = new Alumno(legajo, nombre, apellido, correo, clave, direccion, numeroDeTelefono, dni, claveProvisoria);
             return nuevoAlumno;
         }
     }

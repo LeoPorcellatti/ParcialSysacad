@@ -49,6 +49,7 @@
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             label1 = new Label();
+            chkClaveProvisoria = new CheckBox();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -60,6 +61,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(chkClaveProvisoria);
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(pictureBox3);
             panel1.Controls.Add(label7);
@@ -287,6 +289,20 @@
             label1.TabIndex = 0;
             label1.Text = "FORMULARIO DE REGISTRO DE ALUMNOS";
             // 
+            // chkClaveProvisoria
+            // 
+            chkClaveProvisoria.AutoSize = true;
+            chkClaveProvisoria.Checked = true;
+            chkClaveProvisoria.CheckState = CheckState.Checked;
+            chkClaveProvisoria.Cursor = Cursors.Hand;
+            chkClaveProvisoria.Font = new Font("Consolas", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            chkClaveProvisoria.Location = new Point(317, 356);
+            chkClaveProvisoria.Name = "chkClaveProvisoria";
+            chkClaveProvisoria.Size = new Size(172, 23);
+            chkClaveProvisoria.TabIndex = 18;
+            chkClaveProvisoria.Text = "Clave Provisoria";
+            chkClaveProvisoria.UseVisualStyleBackColor = true;
+            // 
             // FormRegistrarAlumnos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -332,5 +348,6 @@
         private Button btnRegistrar;
         private Button btnVolver;
         private Panel panel3;
+        private CheckBox chkClaveProvisoria;
     }
 }

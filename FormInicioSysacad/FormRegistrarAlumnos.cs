@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -37,6 +38,7 @@ namespace FormInicioSysacad
             string numeroDeTelefono = txtNumeroDeTelefono.Text;
             string correo = txtCorreo.Text;
             string clave = Clave.GenerarClaves();
+            bool claveProvisoria = chkClaveProvisoria.Checked;
 
             if (!Validacion.ValidarCasillasVaciasAlumno(nombre, apellido, dni, direccion, numeroDeTelefono, correo))
             {
@@ -67,10 +69,10 @@ namespace FormInicioSysacad
 
             int legajo = ObtenerUltimoLegajo();
 
-            Alumno nuevoAlumno = Admin.RegistrarAlumno(legajo, nombre, apellido, dni, direccion, numeroDeTelefono, correo, clave);
+            Alumno nuevoAlumno = Admin.RegistrarAlumno(legajo, nombre, apellido, dni, direccion, numeroDeTelefono, correo, clave, claveProvisoria);
             alumnos.Add(nuevoAlumno);
 
-            ManejadorArchivos.GenerarArchivoAlumnos(rutaAlumnosJson, nuevoAlumno);
+            ManejadorArchivos.AgregarAlumnosAlArchivo(rutaAlumnosJson, nuevoAlumno);
 
             MessageBox.Show("Alumno registrado exitosamente.");
 

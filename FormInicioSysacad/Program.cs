@@ -15,20 +15,11 @@ namespace FormInicioSysacad
             ApplicationConfiguration.Initialize();
 
             string rutaAdminJson = ConfigurationManager.AppSettings["rutaAdminJson"];
+            string rutaAlumnosJson = ConfigurationManager.AppSettings["rutaAlumnosJson"];
 
-            if (!File.Exists(rutaAdminJson))
-            {
-                ManejadorArchivos.GenerarArchivoAdmin(rutaAdminJson);
-            }
-
-            string jsonAdministradores = File.ReadAllText(rutaAdminJson);
-            var adminObjects = JsonConvert.DeserializeObject<List<object>>(jsonAdministradores);
-            List <Admin> administradores = adminObjects.Select(obj =>
-            {
-                var adminProps = JsonConvert.DeserializeAnonymousType(obj.ToString(), new { Correo = "", Clave = "" });
-                return new Admin(adminProps.Correo, adminProps.Clave);
-            }).ToList();
-
+            List<Admin> administradores = InicializadorArchivos.InicializarArchivoAdmin(rutaAdminJson);
+            InicializadorArchivos.InicializarArchivoAlumnos(rutaAlumnosJson);
+            
             Application.Run(new FormInicio(administradores));              
         }
     }
