@@ -7,10 +7,14 @@ namespace FormInicioSysacad
     public partial class FormInicio : Form
     {
         private List<Admin> administradores;
+        private List<Alumno> alumnos;
         public FormInicio(List <Admin> admin)
         {
             InitializeComponent();         
             administradores = admin;
+
+            string rutaAlumnosJson = ConfigurationManager.AppSettings["rutaAlumnosJson"];
+            alumnos = ManejadorArchivos.DeserealizarArchivo<Alumno>(rutaAlumnosJson);
         }
 
         private void btnInicioSesion_Click(object sender, EventArgs e)
@@ -19,9 +23,8 @@ namespace FormInicioSysacad
             string correoIngresado = txtUsuario.Text;
             string claveIngresada = txtClave.Text;
 
-            bool credencialesCorrectas = ValidarCredenciales(correoIngresado, claveIngresada);
-
-            if (credencialesCorrectas)
+            string tipoUsuario = ValidarCredenciales(correoIngresado, claveIngresada);
+            if (tipoUsuario == "admin") 
             {
                 FormAdmin formularioAdmin = new FormAdmin();
                 formularioAdmin.FormClosed += (s, args) =>
@@ -32,16 +35,34 @@ namespace FormInicioSysacad
                 this.Enabled = false;
                 LimpiarCampos();
             }
+            else if (tipoUsuario == "alumno")
+            {
+                FormAlumno formularioAlumno = new FormAlumno();
+                formularioAlumno.FormClosed += (s, args) =>
+                {
+                    this.Enabled = true;
+                };
+                formularioAlumno.Show();
+                this.Enabled = false;
+                LimpiarCampos();
+            }
             else
             {
                 MessageBox.Show("Datos incorrectos. Intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private bool ValidarCredenciales(string correo, string clave)
+        private string ValidarCredenciales(string correo, string clave)
         {
-            return administradores.Exists(admin => admin.Correo == correo && admin.Clave == clave);
+            if (administradores.Exists(admin => admin.Correo == correo && admin.Clave == clave))
+            {
+                return "admin";
+            }
+            else if (alumnos.Exists(alumno => alumno.Correo == correo && Clave.ValidatePassword(clave, alumno.Clave)))
+            {
+                return "alumno";
+            }
+            return "desconocido";
         }
-
         private void LimpiarCampos()
         {
             txtUsuario.Text = string.Empty;
